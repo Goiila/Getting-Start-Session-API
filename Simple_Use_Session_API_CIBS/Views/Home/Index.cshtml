@@ -1,0 +1,64 @@
+﻿@using Simple_Use_Session_API_CIBS.Session_API;
+@using System.Text;
+@using System.Web.Mvc;
+@{
+    Layout = null;
+
+    var _session = ViewBag.sessionbyID;
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Index</title>
+</head>
+<body>
+    <div>
+        <p>Logout</p>
+
+        @*<a id="btn_logout" style="cursor:pointer;" onclick="_href_logoutCrossController(@_session.EMPLOYEE_ID)" @*href="@Url.Action("Logout", "Home", new { emp_code = _session.EMPLOYEE_ID})">Logout</a>*@
+        <a href="@Url.Action("Logout", "Home", new { emp_code = Convert.ToBase64String(Encoding.Unicode.GetBytes(_session.EMPLOYEE_ID)) })">
+            <i class="fa fa-sign-out"></i> Sign Out
+        </a>
+    </div>
+    <div>
+        Hello get session by employee code use "61005". Result : "@_session.NAME"
+    </div>
+    <div>
+        <table class="table table-holde">
+            <thead>
+                <tr>
+                    <th>CODE</th>
+                    <th>ID</th>
+                    <th>NAME</th>
+                    <th>TimeStamp</th>
+                    <th>Stay in Web</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var rows in ViewBag.SessionAll)
+                {
+                    <tr>
+                        <td>@rows.EMPLOYEE_ID</td>
+                        <td>@rows.ID</td>
+                        <td>@rows.NAME</td>
+                        <td>@(rows.TimeStamp != null ? String.Format("{0: dd-MMM-yyyy HH:mm:ss}", rows.TimeStamp) : "null")</td>
+                        <td>@rows.stayinweb</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- Optional JavaScript -->
+    <script src="Session_API/Session_API.js"></script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

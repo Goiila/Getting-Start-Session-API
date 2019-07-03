@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Web.Configuration;
 using System.Linq;
 using System.IO;
 using System.Web;
@@ -99,6 +101,29 @@ namespace Simple_Use_Session_API_CIBS.Session_API
                 else
                     return false;
             }
+        }
+
+        //Check last timestamp and login now
+        public bool _checkStateSession(TSI_USERS_Model _user)
+        {
+            Configuration config = WebConfigurationManager.OpenWebConfiguration("~/Web.Config");
+            ///find time out
+            //SessionStateSection section = (SessionStateSection)config.GetSection("system.web/sessionState");
+            //int timeout = (int)section.Timeout.TotalMinutes * 1000 * 60;
+
+            HostingEnvironmentSection configSection = (HostingEnvironmentSection)config.GetSection("system.web/hostingEnvironment");
+            var idleTimeout = configSection.IdleTimeout.TotalHours;
+            //get session user from api
+            TSI_USERS_Model _user_fromAPI = getSession(_user.EMPLOYEE_ID);
+
+            //var time = _user_fromAPI.TimeStamp;
+            var stay = _user_fromAPI.LogginNow;
+            DateTime LastAction = Convert.ToDateTime(_user_fromAPI.TimeStamp);
+            double Cal_lastAction = (DateTime.Now - LastAction).TotalHours;
+            if (Cal_lastAction > idleTimeout) // true for user session is null
+                return true;
+            else
+                return false;
         }
     }
 }

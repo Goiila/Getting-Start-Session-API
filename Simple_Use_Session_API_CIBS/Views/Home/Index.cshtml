@@ -22,8 +22,14 @@
         <p>Logout</p>
 
         @*<a id="btn_logout" style="cursor:pointer;" onclick="_href_logoutCrossController(@_session.EMPLOYEE_ID)" @*href="@Url.Action("Logout", "Home", new { emp_code = _session.EMPLOYEE_ID})">Logout</a>*@
-        <a href="@Url.Action("Logout", "Home", new { emp_code = Convert.ToBase64String(Encoding.Unicode.GetBytes(_session.EMPLOYEE_ID)) })">
+        <a href="@Url.Action("Logout", "Home", new { emp_code = Convert.ToBase64String(Encoding.UTF8.GetBytes(_session.EMPLOYEE_ID)) })">
             <i class="fa fa-sign-out"></i> Sign Out
+        </a>
+
+    </div>
+    <div>
+        <a href="http://localhost:85/CIBS/WIBSInsured">
+            Go to Main Site
         </a>
     </div>
     <div>
